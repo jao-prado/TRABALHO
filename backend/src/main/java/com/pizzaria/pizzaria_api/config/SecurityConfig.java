@@ -53,7 +53,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/atendente/**").hasAnyRole("ATENDENTE", "ADMIN")
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .authenticationEntryPoint((request, response, ex) -> response.sendError(401)))
                 .build();
     }
 

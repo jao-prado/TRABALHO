@@ -5,9 +5,14 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' }
 })
 
+const PUBLIC_ROUTES = ['/auth/login', '/auth/cadastro']
+
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
+  const isPublic = PUBLIC_ROUTES.some(route => config.url?.includes(route))
+  if (!isPublic) {
+    const token = localStorage.getItem('token')
+    if (token) config.headers.Authorization = `Bearer ${token}`
+  }
   return config
 })
 
