@@ -1,7 +1,7 @@
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
-import { useCart } from '../contexts/CartContext'
+import { useAuth } from '../hooks/useAuth'
+import { useCart } from '../hooks/useCart'
 
 export default function AppNavbar() {
   const { autenticado, logout, usuario } = useAuth()

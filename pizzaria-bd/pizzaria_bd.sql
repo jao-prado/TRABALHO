@@ -161,14 +161,21 @@ WHERE TABLE_TYPE = 'BASE TABLE';
 USE master;
 GO
 
-CREATE LOGIN pizzaria_app WITH PASSWORD = 'Pizzaria@123456';
+IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = N'pizzaria_app')
+BEGIN
+    CREATE LOGIN pizzaria_app WITH PASSWORD = 'Troque@EstaSenha123';
+END
 GO
 
 USE pizzaria_barueri;
 GO
 
-CREATE USER pizzaria_app FOR LOGIN pizzaria_app;
+IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'pizzaria_app')
+BEGIN
+    CREATE USER pizzaria_app FOR LOGIN pizzaria_app;
+END
 GO
 
-ALTER ROLE db_owner ADD MEMBER pizzaria_app;
+ALTER ROLE db_datareader ADD MEMBER pizzaria_app;
+ALTER ROLE db_datawriter ADD MEMBER pizzaria_app;
 GO

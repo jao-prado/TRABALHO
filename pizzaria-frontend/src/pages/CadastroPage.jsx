@@ -2,7 +2,7 @@ import { Alert, Button, Card, Col, Form, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 
 export default function CadastroPage() {
   const { cadastro } = useAuth()

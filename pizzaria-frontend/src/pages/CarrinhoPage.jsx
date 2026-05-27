@@ -1,6 +1,6 @@
 import { Button, Card, Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { useCart } from '../contexts/CartContext'
+import { useCart } from '../hooks/useCart'
 import { formatarMoeda } from '../utils/formatters'
 
 export default function CarrinhoPage() {

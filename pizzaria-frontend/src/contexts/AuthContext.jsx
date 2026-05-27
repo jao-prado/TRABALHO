@@ -1,7 +1,6 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { AuthContext } from './authContextObject'
 import { buscarUsuarioLogado, cadastro as cadastrarUsuario, login as loginUsuario } from '../services/authService'
-
-const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem('token'))
@@ -44,17 +43,17 @@ export function AuthProvider({ children }) {
     }
   }, [token])
 
-  async function autenticar(email, senha) {
+  const autenticar = useCallback(async (email, senha) => {
     const data = await loginUsuario(email, senha)
     salvarSessao(data)
     return data.usuario
-  }
+  }, [])
 
-  async function cadastrar(dados) {
+  const cadastrar = useCallback(async (dados) => {
     const data = await cadastrarUsuario(dados)
     salvarSessao(data)
     return data.usuario
-  }
+  }, [])
 
   function salvarSessao(data) {
     localStorage.setItem('token', data.token)
@@ -80,16 +79,8 @@ export function AuthProvider({ children }) {
       cadastro: cadastrar,
       logout
     }),
-    [token, usuario, carregando]
+    [token, usuario, carregando, autenticar, cadastrar]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth deve ser usado dentro de AuthProvider')
-  }
-  return context
 }

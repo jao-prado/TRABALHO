@@ -12,3 +12,4 @@ Projeto de scripts para Microsoft SQL Server.
 - Constraints explicitas.
 - Relacionamentos coerentes com as entidades do backend.
 - Alteracoes devem ser feitas por sprint, mantendo compatibilidade com a API.
+- O login `pizzaria_app` deve ter senha alterada antes de uso fora do ambiente local.

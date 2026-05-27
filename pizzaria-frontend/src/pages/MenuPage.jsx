@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Alert, Badge, Button, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
-import { useCart } from '../contexts/CartContext'
+import { useAuth } from '../hooks/useAuth'
+import { useCart } from '../hooks/useCart'
 import { listarCategorias, listarProdutos } from '../services/produtoService'
 import { formatarMoeda } from '../utils/formatters'
 
