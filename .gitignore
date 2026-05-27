@@ -19,16 +19,16 @@ application-local.properties
 application-prod.properties
 
 # Frontend - React/Vite
-pizzaria-frontend/node_modules/
-pizzaria-frontend/dist/
-pizzaria-frontend/build/
-pizzaria-frontend/.vite/
-pizzaria-frontend/.eslintcache
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/.eslintcache
 
 # Backend - Java/Spring/Maven
-pizzaria-backend/**/target/
-pizzaria-backend/**/.mvn/wrapper/maven-wrapper.jar
-pizzaria-backend/**/logs/
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/logs/
 
 # IDEs e editores
 .idea/

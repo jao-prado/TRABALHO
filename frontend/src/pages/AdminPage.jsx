@@ -11,11 +11,15 @@ import {
   listarCategoriasAdmin,
   listarProdutosAdmin
 } from '../services/produtoService'
+import { atualizarUsuario, listarUsuarios } from '../services/usuarioService'
 import { formatarMoeda } from '../utils/formatters'
+
+const roles = ['CLIENTE', 'ATENDENTE', 'ADMIN']
 
 export default function AdminPage() {
   const [categorias, setCategorias] = useState([])
   const [produtos, setProdutos] = useState([])
+  const [usuarios, setUsuarios] = useState([])
   const [editandoCategoria, setEditandoCategoria] = useState(null)
   const [editandoProduto, setEditandoProduto] = useState(null)
   const [carregando, setCarregando] = useState(true)
@@ -26,12 +30,14 @@ export default function AdminPage() {
   async function carregarDados() {
     setErro('')
     try {
-      const [categoriasData, produtosData] = await Promise.all([
+      const [categoriasData, produtosData, usuariosData] = await Promise.all([
         listarCategoriasAdmin(),
-        listarProdutosAdmin()
+        listarProdutosAdmin(),
+        listarUsuarios()
       ])
       setCategorias(categoriasData)
       setProdutos(produtosData)
+      setUsuarios(usuariosData)
     } catch {
       setErro('Nao foi possivel carregar os dados administrativos.')
     } finally {
@@ -111,6 +117,24 @@ export default function AdminPage() {
   async function alternarProduto(produto) {
     await alterarStatusProduto(produto.id, !produto.ativo)
     await carregarDados()
+  }
+
+  async function alterarRoleUsuario(usuario, role) {
+    try {
+      const usuarioAtualizado = await atualizarUsuario(usuario.id, { role })
+      setUsuarios((atuais) => atuais.map((item) => (item.id === usuario.id ? usuarioAtualizado : item)))
+    } catch (error) {
+      setErro(error.response?.data?.mensagens?.[0] || 'Nao foi possivel atualizar o usuario.')
+    }
+  }
+
+  async function alternarUsuario(usuario) {
+    try {
+      const usuarioAtualizado = await atualizarUsuario(usuario.id, { ativo: !usuario.ativo })
+      setUsuarios((atuais) => atuais.map((item) => (item.id === usuario.id ? usuarioAtualizado : item)))
+    } catch (error) {
+      setErro(error.response?.data?.mensagens?.[0] || 'Nao foi possivel atualizar o usuario.')
+    }
   }
 
   return (
@@ -250,6 +274,35 @@ export default function AdminPage() {
                   </div>
                 </Col>
               </Row>
+            </Tab>
+
+            <Tab eventKey="usuarios" title="Usuarios">
+              <div className="admin-list">
+                {usuarios.map((usuario) => (
+                  <Card className="admin-row" key={usuario.id}>
+                    <Card.Body>
+                      <div>
+                        <h2>{usuario.nome}</h2>
+                        <p>{usuario.email}</p>
+                      </div>
+                      <Badge bg={usuario.ativo ? 'success' : 'secondary'}>{usuario.ativo ? 'Ativo' : 'Inativo'}</Badge>
+                      <Form.Select
+                        size="sm"
+                        value={usuario.role}
+                        onChange={(event) => alterarRoleUsuario(usuario, event.target.value)}
+                        className="admin-role-select"
+                      >
+                        {roles.map((role) => (
+                          <option key={role} value={role}>{role}</option>
+                        ))}
+                      </Form.Select>
+                      <Button variant="outline-dark" size="sm" onClick={() => alternarUsuario(usuario)}>
+                        {usuario.ativo ? 'Desativar' : 'Ativar'}
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </div>
             </Tab>
           </Tabs>
         )}

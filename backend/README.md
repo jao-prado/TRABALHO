@@ -7,7 +7,7 @@ API do sistema Pizzaria Barueri.
 O projeto Spring Boot fica em:
 
 ```text
-pizzaria-api/
+backend/
 ```
 
 ## Arquitetura

@@ -1,10 +1,10 @@
 # Pizzaria Barueri
 
-Sistema web de pizzaria local em Barueri/SP, organizado em tres projetos:
+Sistema web de pizzaria local em Barueri/SP, organizado em tres pastas:
 
-- `pizzaria-frontend`: aplicacao React + Vite.
-- `pizzaria-backend/pizzaria-api`: API Java Spring Boot.
-- `pizzaria-bd`: scripts SQL Server.
+- `frontend`: aplicacao React + Vite.
+- `backend`: API Java Spring Boot.
+- `sql`: scripts SQL Server.
 
 ## Ordem De Desenvolvimento
 

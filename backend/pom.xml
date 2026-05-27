@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.pizzaria</groupId>
-	<artifactId>pizzaria-api</artifactId>
+	<artifactId>pizzaria-barueri-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>

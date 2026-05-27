@@ -144,6 +144,18 @@ VALUES
     ('Sobremesas', 'Sobremesas disponiveis no cardapio');
 GO
 
+INSERT INTO dbo.usuarios (nome, email, senha_hash, telefone, role, ativo)
+VALUES
+    (
+        'Admin',
+        'admin@gmail.com',
+        '$2a$10$NIc8TBilGCN8r1jrrSsayOh6uW5agfqWIanmHrz3jB7awC7WJFQli',
+        NULL,
+        'ADMIN',
+        1
+    );
+GO
+
 
 SELECT name
 FROM sys.databases

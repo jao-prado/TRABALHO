@@ -385,6 +385,10 @@
   color: #6d6258;
 }
 
+.admin-role-select {
+  width: 150px;
+}
+
 .form-actions {
   display: flex;
   gap: 8px;
@@ -455,6 +459,10 @@
 
   .admin-card {
     position: static;
+  }
+
+  .admin-role-select {
+    width: 100%;
   }
 
   .form-actions {
