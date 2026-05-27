@@ -143,3 +143,32 @@ VALUES
     ('Bebidas', 'Bebidas para acompanhar o pedido'),
     ('Sobremesas', 'Sobremesas disponiveis no cardapio');
 GO
+
+
+SELECT name
+FROM sys.databases
+WHERE name = 'pizzaria_barueri';
+
+
+USE pizzaria_barueri;
+
+SELECT TABLE_NAME
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE';
+
+
+
+USE master;
+GO
+
+CREATE LOGIN pizzaria_app WITH PASSWORD = 'Pizzaria@123456';
+GO
+
+USE pizzaria_barueri;
+GO
+
+CREATE USER pizzaria_app FOR LOGIN pizzaria_app;
+GO
+
+ALTER ROLE db_owner ADD MEMBER pizzaria_app;
+GO
