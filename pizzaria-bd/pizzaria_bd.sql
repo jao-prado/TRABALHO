@@ -1,0 +1,2 @@
+-- Pizzaria Barueri
+-- Sprint 1 sera responsavel pela modelagem completa do banco SQL Server.
