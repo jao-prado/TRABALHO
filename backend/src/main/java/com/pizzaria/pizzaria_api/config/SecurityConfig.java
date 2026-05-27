@@ -25,6 +25,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -54,6 +56,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
+                        .bearerTokenResolver(bearerTokenResolver())
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint((request, response, ex) -> response.sendError(401)))
                 .build();
@@ -99,6 +102,16 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    private BearerTokenResolver bearerTokenResolver() {
+        DefaultBearerTokenResolver resolver = new DefaultBearerTokenResolver();
+        resolver.setAllowUriQueryParameter(false);
+        return request -> {
+            String path = request.getRequestURI();
+            if (path.equals("/api/auth/login") || path.equals("/api/auth/cadastro")) return null;
+            return resolver.resolve(request);
+        };
     }
 
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
