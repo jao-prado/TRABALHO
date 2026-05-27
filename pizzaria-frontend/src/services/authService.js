@@ -5,7 +5,12 @@ export async function login(email, senha) {
   return response.data
 }
 
-export async function getProdutos() {
-  const response = await api.get('/produtos')
+export async function cadastro(dados) {
+  const response = await api.post('/auth/cadastro', dados)
+  return response.data
+}
+
+export async function buscarUsuarioLogado() {
+  const response = await api.get('/auth/me')
   return response.data
 }
