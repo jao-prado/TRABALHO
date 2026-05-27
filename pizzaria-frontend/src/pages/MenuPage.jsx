@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Alert, Badge, Button, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import { useCart } from '../contexts/CartContext'
 import { listarCategorias, listarProdutos } from '../services/produtoService'
+import { formatarMoeda } from '../utils/formatters'
 
 export default function MenuPage() {
+  const { autenticado } = useAuth()
+  const { adicionar, itens, totalItens, valorTotal } = useCart()
   const [produtos, setProdutos] = useState([])
   const [categorias, setCategorias] = useState([])
   const [categoriaId, setCategoriaId] = useState('')
@@ -36,18 +42,25 @@ export default function MenuPage() {
             <span className="eyebrow">Cardapio</span>
             <h1>Produtos disponiveis</h1>
           </div>
-          <div className="category-filter">
-            <Button variant={!categoriaId ? 'dark' : 'outline-dark'} size="sm" onClick={() => setCategoriaId('')}>Todos</Button>
-            {categorias.map((categoria) => (
-              <Button
-                key={categoria.id}
-                variant={String(categoria.id) === String(categoriaId) ? 'dark' : 'outline-dark'}
-                size="sm"
-                onClick={() => setCategoriaId(categoria.id)}
-              >
-                {categoria.nome}
+          <div className="header-actions">
+            <div className="category-filter">
+              <Button variant={!categoriaId ? 'dark' : 'outline-dark'} size="sm" onClick={() => setCategoriaId('')}>Todos</Button>
+              {categorias.map((categoria) => (
+                <Button
+                  key={categoria.id}
+                  variant={String(categoria.id) === String(categoriaId) ? 'dark' : 'outline-dark'}
+                  size="sm"
+                  onClick={() => setCategoriaId(categoria.id)}
+                >
+                  {categoria.nome}
+                </Button>
+              ))}
+            </div>
+            {autenticado && totalItens > 0 && (
+              <Button as={Link} to="/carrinho" variant="dark" size="sm">
+                {totalItens} itens - {formatarMoeda(valorTotal)}
               </Button>
-            ))}
+            )}
           </div>
         </div>
 
@@ -65,7 +78,19 @@ export default function MenuPage() {
                       <Badge bg="light" text="dark">{produto.categoria.nome}</Badge>
                     </div>
                     <p>{produto.descricao || 'Produto do cardapio.'}</p>
-                    <strong>{produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>
+                    <div className="product-actions">
+                      <strong>{formatarMoeda(produto.preco)}</strong>
+                      {autenticado ? (
+                        <Button variant="dark" size="sm" onClick={() => adicionar(produto)}>
+                          Adicionar
+                          {itens.find((item) => item.produto.id === produto.id)?.quantidade
+                            ? ` (${itens.find((item) => item.produto.id === produto.id).quantidade})`
+                            : ''}
+                        </Button>
+                      ) : (
+                        <Button as={Link} to="/login" variant="outline-dark" size="sm">Entrar</Button>
+                      )}
+                    </div>
                   </Card.Body>
                 </Card>
               </Col>

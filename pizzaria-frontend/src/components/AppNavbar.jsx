@@ -1,9 +1,11 @@
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useCart } from '../contexts/CartContext'
 
 export default function AppNavbar() {
   const { autenticado, logout, usuario } = useAuth()
+  const { totalItens } = useCart()
   const navigate = useNavigate()
 
   function sair() {
@@ -21,6 +23,7 @@ export default function AppNavbar() {
         <Navbar.Collapse id="main-nav">
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/cardapio">Cardapio</Nav.Link>
+            {autenticado && <Nav.Link as={NavLink} to="/carrinho">Carrinho ({totalItens})</Nav.Link>}
             {autenticado && <Nav.Link as={NavLink} to="/pedidos">Meus pedidos</Nav.Link>}
             {['ATENDENTE', 'ADMIN'].includes(usuario?.role) && (
               <Nav.Link as={NavLink} to="/atendente">Atendente</Nav.Link>
