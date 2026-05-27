@@ -312,6 +312,84 @@
   font-size: 1.05rem;
 }
 
+.attendant-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  align-items: end;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.attendant-footer > div {
+  display: grid;
+  gap: 4px;
+}
+
+.attendant-footer span {
+  color: #6d6258;
+}
+
+.attendant-footer strong {
+  color: #9f321f;
+  font-size: 1.1rem;
+}
+
+.admin-tabs {
+  margin-bottom: 24px;
+}
+
+.admin-tabs .nav-link {
+  color: #5f554b;
+  font-weight: 700;
+}
+
+.admin-tabs .nav-link.active {
+  color: #9f321f;
+}
+
+.admin-card,
+.admin-row {
+  border-color: #eadfd4;
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(45, 35, 27, 0.06);
+}
+
+.admin-card {
+  position: sticky;
+  top: 88px;
+}
+
+.admin-card h2,
+.admin-row h2 {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.admin-card h2 {
+  margin-bottom: 18px;
+}
+
+.admin-list {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-row .card-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-row p {
+  color: #6d6258;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
 @media (max-width: 768px) {
   .auth-page {
     padding: 0;
@@ -368,5 +446,18 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 4px;
+  }
+
+  .attendant-footer,
+  .admin-row .card-body {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-card {
+    position: static;
+  }
+
+  .form-actions {
+    flex-direction: column;
   }
 }
